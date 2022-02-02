@@ -129,3 +129,38 @@ contract ConstantImmutable {
     }
 }
 ```
+
+<h4>Function modifiers </h4>
+<p>Fonksiyonlarınızı kullanırken modifier ları sık kullanırsınız. AÇIKLAMA EKLEYELİM.</p>
+
+'''
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity 0.8.11;
+
+contract Ownable {
+
+  address private owner;
+
+  constructor()  {
+     owner=msg.sender;
+     
+  }
+
+  modifier onlyOwner() {
+    require(owner == msg.sender, "Ownable: caller is not the owner");
+    _;
+  }
+
+  // will revert if msg.sender is not owner
+  function transferOwnership(address newOwner) public onlyOwner {
+    owner = newOwner;
+  }
+
+
+function seeNewOwner() public view returns(address){
+   return owner;
+}
+}
+
+
+'''
