@@ -133,7 +133,7 @@ contract ConstantImmutable {
 <h4>Function modifiers </h4>
 <p>Fonksiyonlarınızı kullanırken modifier ları sık kullanırsınız. AÇIKLAMA EKLEYELİM.</p>
 
-'''
+```
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.11;
 
@@ -163,4 +163,4 @@ function seeNewOwner() public view returns(address){
 }
 
 
-'''
+```
