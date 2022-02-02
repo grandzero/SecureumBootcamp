@@ -63,3 +63,69 @@ contract Demo is VarVis {
     }
 }
 
+
+<h4>State Variables: Constant & Immutable </h4>
+<p>State constant değişken sadece başta atanır. Blok yapısını göremez</p>
+<br>
+<p>State immutable değişken sadece başta tanımlanıp, constructorda atanabilir. Blok yapısını görür.</p>
+<br>
+
+// SPDX-License-Identifier:any string representing the license
+pragma solidity 0.8.7;
+
+contract ConstantImmutable {
+
+    // both of these assignments work
+    uint constant CONSTANT_VAR = 5 + 7;
+    uint immutable IMMUTABLE_VAR = 4 + 3;
+
+    // constant must be assigned to at declaration
+    // uint constant UNASSIGNED_CONSTANT;
+
+    // constant may not read blockchain state
+    // uint constant CONSTANT_VAR2 = block.number;
+    // TypeError: Initial value for constant vairlable has to be compile-time constant
+
+    // immutable may be initialized here and assigned in constructor
+    uint immutable IMMUTABLE_VAR2;
+
+    constructor() {
+
+        // immutable may read blockchain state
+        IMMUTABLE_VAR2 = block.number;
+    }
+
+
+    function multiplyByConstant(uint x) public pure returns (uint) {
+
+        // the compiler reevaluates the expression for CONSTANT_VAR (5 +7) here
+        return x * CONSTANT_VAR;
+    }
+
+    function multiplyByImmutable(uint x) public pure returns (uint) {
+
+        // the compiler copy and pastes the value for IMMUTABLE_VAR (7) here
+        return x * IMMUTABLE_VAR;
+    }
+
+    function multiplyByImmutable2(uint x) public view returns (uint, uint) {
+
+        // the compiler copy and pastes the value for IMMUTABLE_VAR (current block number) here
+        return (x * IMMUTABLE_VAR2, block.number);
+    }
+
+    function modifyConstant() public {
+
+        // reassignment fails
+        // CONSTANT_VAR = 2;
+        // TypeError: Cannot assign to a constant variable
+    }
+
+    function modifyImmutable() public {
+
+        // reassignment fails
+        // IMMUTABLE_VAR = 2;
+        // TypeError: cannot write to immutable here:
+        // Immutable variables can only be initialized inline and assigned directly in the constructor
+    }
+}
