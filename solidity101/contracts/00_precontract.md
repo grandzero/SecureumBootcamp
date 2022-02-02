@@ -70,7 +70,8 @@ contract Demo is VarVis {
 <p>State constant değişken sadece başta atanır. Blok yapısını göremez</p>
 <br>
 <p>State immutable değişken sadece başta tanımlanıp, constructorda atanabilir. Blok yapısını görür.</p>
-<br>
+
+
 ```
 // SPDX-License-Identifier:any string representing the license
 pragma solidity 0.8.7;
