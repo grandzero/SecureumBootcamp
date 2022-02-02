@@ -6,4 +6,6 @@ tekrar kullanılamayacağı açıkca belirtilir.</p>
 
 <h4>Pragmas</h4>
 <p>Pragma, Solidity'in compiler sürümünü ifade eder. Bu yazının yazıldığı tarihte (02.02.2022) v0.8.11 versiyonu kullanılmaktaydı.</p>
-<p> v0.8.11 = x.y.z ise; y=Büyük değişiklik yapılan versiyonları ve z= her büyük değişikliğinin içindeki küçük değişikleri belirtmek için kullanılır.</p>
+<p> v0.8.11 = x.y.z ise; "y" Büyük değişiklik yapılan versiyonları ve "z" her büyük değişikliğinin içindeki küçük değişikleri belirtmek için kullanılır.</p>
+<p> v0.8.11 ile birlikte "ABI Coder Version" otomatik olarak solidity dosyasına eklenmektedir. Önceki yıllarda bunu belirtmek zorundaydınız.</p>
+<p> ^ işareti şu anlama gelir : pragma solidity ^0.8.7; 0.8.7 ve sonrasındaki tüm sürümler! </p>
