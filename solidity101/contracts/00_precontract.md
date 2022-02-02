@@ -27,7 +27,7 @@ public: Her yerden ulaşabiliriz.
 internal: Sadece tanımlandığı kontrat ve kontrattan türeyen kontrattan ulaşabiliriz.
 private: Sadece Tanımlandığı kontrattan ulaşılır.
 
-
+```
 // SPDX-License-Identifier:any string representing the license
 pragma solidity 0.8.7;
 
@@ -64,7 +64,7 @@ contract Demo is VarVis {
         // aPrivateVar += 1;
     }
 }
-
+```
 
 <h4>State Variables: Constant & Immutable </h4>
 <p>State constant değişken sadece başta atanır. Blok yapısını göremez</p>
