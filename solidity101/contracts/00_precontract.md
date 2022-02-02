@@ -9,3 +9,13 @@ tekrar kullanılamayacağı açıkca belirtilir.</p>
 <p> v0.8.11 = x.y.z ise; "y" Büyük değişiklik yapılan versiyonları ve "z" her büyük değişikliğinin içindeki küçük değişikleri belirtmek için kullanılır.</p>
 <p> v0.8.11 ile birlikte "ABI Coder Version" otomatik olarak solidity dosyasına eklenmektedir. Önceki yıllarda bunu belirtmek zorundaydınız.</p>
 <p> ^ işareti şu anlama gelir : pragma solidity ^0.8.7; 0.8.7 ve sonrasındaki tüm sürümler! </p>
+
+<h4>Import</h4>
+<p> Aynı dosya altındaki dosyayı çağırmak için :  <b>import "./x.sol";</b> </p>
+<p> Github üzerinden çağırmak için :<b> import "https://github.com/owner/repo/blob/branch/path/to/Contract.sol";</b></p>
+
+<h4>Comments</h4>
+<p>Tek satır için // çoklu satır için /*...*/  </p>
+
+<h4>State Variables</h4>
+<p>State variables, storage de tutulur. Fonksiyon içinde yazılmayan tüm değişkenler state variable dir.(Bu böyle ifade edilmeyebilir )</p>
