@@ -67,9 +67,9 @@ contract Demo is VarVis {
 ```
 
 <h4>State Variables: Constant & Immutable </h4>
-<p>State constant değişken sadece başta atanır. Blok yapısını göremez</p>
+<p>State constant değişken sadece başta atanır. DEĞİŞTİRİLEMEZ.Blok yapısını göremez</p>
 <br>
-<p>State immutable değişken sadece başta tanımlanıp, constructorda atanabilir. Blok yapısını görür.</p>
+<p>State immutable değişken sadece başta tanımlanıp, constructorda atanabilir. DEĞİŞTİRİLEMEZ.Blok yapısını görür.</p>
 
 
 ```
