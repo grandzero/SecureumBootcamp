@@ -47,7 +47,6 @@ contract VarVis {
 contract Demo is VarVis {
 
    
-
     function incrementPublicVar() public {
         
         aPublicVar += 1;
