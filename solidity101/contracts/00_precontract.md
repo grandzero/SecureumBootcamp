@@ -33,32 +33,34 @@ pragma solidity 0.8.7;
 
 contract VarVis {
 
-    // Otomatik getter fonksiyonu oluşturulur. Dış kontratlar okuyabilir
-    // Bu kontrattan türeyen kontratlar hem okur hem değiştirir
+    // getter function is generated for external contracts to read "aPublicVar"
+    // derived contracts iherhit "aPublicVar" and may read/modify directly
     uint public aPublicVar;
 
-    // Bu kontrattan türeyen kontratlar hem okur hem değiştirir
+    // no getter function generated
+    // derived contracts inherit "anInternalVar" and may read/modify directly
     uint internal anInternalVar;
 
-    // Sadece bu kontrattan ulaşılır.
+    // only accessible in this contract
     uint private aPrivateVar;
 }
 
 contract Demo is VarVis {
 
-   
+    // these functions attempt to modify inherited public, internal, and private variables
+
     function incrementPublicVar() public {
-        
+        // this works
         aPublicVar += 1;
     }
 
     function incrementInternalVar() public {
-       
+        // this works
         anInternalVar += 1;
     }
 
     function incrementPrivateVar() public {
-        // Çalışmaz
+        // does not compile: DeclarationError: undeclared identifier
         // aPrivateVar += 1;
     }
 }
