@@ -19,3 +19,48 @@ tekrar kullanılamayacağı açıkca belirtilir.</p>
 
 <h4>State Variables</h4>
 <p>State variables, storage de tutulur. Fonksiyon içinde yazılmayan tüm değişkenler state variable dir.(Bu böyle ifade edilmeyebilir )</p>
+
+<h4> State Visibility Specifiers</h4>
+Visibility basitçe değişkene başka bir yerden ulaşma durumudur. Görünür olma durumu.
+
+public: Her yerden ulaşabiliriz.
+internal: Sadece tanımlandığı kontrat ve kontrattan türeyen kontrattan ulaşabiliriz.
+private: Sadece Tanımlandığı kontrattan ulaşılır.
+
+
+// SPDX-License-Identifier:any string representing the license
+pragma solidity 0.8.7;
+
+contract VarVis {
+
+    // Otomatik getter fonksiyonu oluşturulur. Dış kontratlar okuyabilir
+    // Bu kontrattan türeyen kontratlar hem okur hem değiştirir
+    uint public aPublicVar;
+
+    // Bu kontrattan türeyen kontratlar hem okur hem değiştirir
+    uint internal anInternalVar;
+
+    // Sadece bu kontrattan ulaşılır.
+    uint private aPrivateVar;
+}
+
+contract Demo is VarVis {
+
+   
+
+    function incrementPublicVar() public {
+        
+        aPublicVar += 1;
+    }
+
+    function incrementInternalVar() public {
+       
+        anInternalVar += 1;
+    }
+
+    function incrementPrivateVar() public {
+        // Çalışmaz
+        // aPrivateVar += 1;
+    }
+}
+
