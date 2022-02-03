@@ -198,3 +198,93 @@ contract ZombieHelper is ZombieFeeding {
 
 }
 ```
+<h4>Function Visibility </h4>
+
+```
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity >=0.4.16 <0.9.0;
+
+contract FunctionVisibility {
+
+    string public setToHelloWorld;
+
+    function publicFunction() public {
+        // callable by external contracts, derived contracts, and functions in this contract
+        setToHelloWorld = "Hello World public ";
+       
+    }
+    function externalFunction() external {
+       // callable by external contracts
+        setToHelloWorld = "Hello World external ";
+       
+    }
+    function internalFunction() internal {
+        // callable by derived contracts and functions in this contract
+        setToHelloWorld = "Hello World internal ";
+       
+    }
+    function privateFunction() private {
+        // callable by only functions in this contract
+        setToHelloWorld = "Hello World private ";
+        
+    }
+    function reset() public {
+        setToHelloWorld = "";
+       
+    }
+}
+contract ExternalContract {
+
+    FunctionVisibility external_contract = new FunctionVisibility();
+
+    function callPublic() public {
+        // This succeeds. Public functions are included in contract interface
+        external_contract.publicFunction();
+    }
+
+    function callExternal() public {
+        // This succeeds. External functions are included in contract interface
+        external_contract.externalFunction();
+    }
+
+    function callInternal() public {
+        // This fails. Internal functions are not included in contract interface
+         //external_contract.internalFunction();
+        // TypeError: internalFunction not found or not visible after argument-dependent lookup in contract FunctionVisibility
+    }
+
+    function callPrivate() public {
+        // This fails. Private functions are not included in contract interface
+        // external_contract.privateFunction();
+        // TypeError: member "privateFunction" not found or not visibile after argement-dependent lookup in contract FunctionVisibility
+    }
+
+    function callGetter() public returns (string memory) {
+        return external_contract.setToHelloWorld();
+    }
+}
+contract DerivedContract is FunctionVisibility {
+
+    function callPublic() public {
+        // This succeeds via inheritance of public functions
+        publicFunction();
+    }
+
+    function callExternal() public {
+        // This fails. External functions are not inherited by derived contracts
+        // externalFunction();
+        // DeclarationError: Undeclared identifier
+    }
+
+    function callInternal() public {
+        // This succeeds via inheritance of internal functions
+        internalFunction();
+    }
+
+    function callPrivate() public {
+        // This fails. Private functions are not inherited by derived contracts
+        // privateFunction();
+        // DeclarationError: Undeclared identifier
+    }
+}
+```
