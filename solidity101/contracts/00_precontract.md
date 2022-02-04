@@ -233,55 +233,53 @@ contract FunctionVisibility {
        
     }
 }
-contract ExternalContract {
+contract ExternalContract  {
 
-    FunctionVisibility external_contract = new FunctionVisibility();
+    FunctionVisibility public external_contract = new FunctionVisibility();
 
-    function callPublic() public {
+    function callPublicFromExternal() public {
         // This succeeds. Public functions are included in contract interface
         external_contract.publicFunction();
     }
 
-    function callExternal() public {
+    function callExternalFromExternal() public {
         // This succeeds. External functions are included in contract interface
         external_contract.externalFunction();
     }
 
-    function callInternal() public {
+    function callInternalFromExternal() public {
         // This fails. Internal functions are not included in contract interface
          //external_contract.internalFunction();
         // TypeError: internalFunction not found or not visible after argument-dependent lookup in contract FunctionVisibility
     }
 
-    function callPrivate() public {
+    function callPrivateFromExternal() public {
         // This fails. Private functions are not included in contract interface
         // external_contract.privateFunction();
         // TypeError: member "privateFunction" not found or not visibile after argement-dependent lookup in contract FunctionVisibility
     }
 
-    function callGetter() public returns (string memory) {
-        return external_contract.setToHelloWorld();
-    }
+    
 }
 contract DerivedContract is FunctionVisibility {
 
-    function callPublic() public {
+    function callPublicFromDerived() public {
         // This succeeds via inheritance of public functions
         publicFunction();
     }
 
-    function callExternal() public {
+    function callExternalFromDerived() public {
         // This fails. External functions are not inherited by derived contracts
         // externalFunction();
         // DeclarationError: Undeclared identifier
     }
 
-    function callInternal() public {
+    function callInternalFromDerived() public {
         // This succeeds via inheritance of internal functions
         internalFunction();
     }
 
-    function callPrivate() public {
+    function callPrivateFromDerived() public {
         // This fails. Private functions are not inherited by derived contracts
         // privateFunction();
         // DeclarationError: Undeclared identifier
