@@ -2,6 +2,12 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 
+// Nice To Follow : 
+// https://blog.openzeppelin.com/proxy-patterns/
+// https://blog.openzeppelin.com/the-transparent-proxy-pattern/
+// https://www.youtube.com/watch?v=YpEm9Ki0qLE
+// https://www.youtube.com/watch?v=bdXJmWajZRY
+// https://www.youtube.com/watch?v=zUtnYtxjOrc
 
 contract ProxyContractWithCallNoStorage {
     address public proxiedAddress;
