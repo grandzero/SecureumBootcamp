@@ -3,12 +3,19 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 // Nice To Follow : 
+// https://blog.openzeppelin.com/ethereum-in-depth-part-2-6339cf6bddb9/
 // https://blog.openzeppelin.com/proxy-patterns/
 // https://blog.openzeppelin.com/the-transparent-proxy-pattern/
 // https://www.youtube.com/watch?v=YpEm9Ki0qLE
 // https://www.youtube.com/watch?v=bdXJmWajZRY
 // https://www.youtube.com/watch?v=zUtnYtxjOrc
 
+
+
+/**
+    This contract help us call another contract with only metadata
+    But what about storage?
+ */
 contract ProxyContractWithCallNoStorage {
     address public proxiedAddress;
 
@@ -17,6 +24,12 @@ contract ProxyContractWithCallNoStorage {
     }
 
     fallback() external payable{
+
+        // With the code block we are able to call any contract just using same abi
+        // All we need is update proxy address
+        // But problem here is the storage
+        // When we change the address of pointing contract, we can't access old datas anymore
+        // All datas are lost now
         (bool s, ) = proxiedAddress.call(msg.data);
         require(s);
     }
@@ -34,6 +47,10 @@ contract ProxyContractWithCallNoStorage {
     }
 }
 
+/**
+This contract is the main logic contract
+We store main logic and storage here
+ */
 contract RealContract {
     uint256 public test;
     bool public updated;
@@ -83,8 +100,11 @@ contract RealContract {
 
 
 /**
- * @title Storage
- * @dev Store & retrieve value in a variable
+ * @title Proxy contract
+ * @dev Calls functions from other contract while keeping storage same
+ * By using delegate call, we managed to solve the issue with the top and 
+ * Now we are not losing storage data while we can still change the logic
+ * delegatecall let's us use any contracts functions like libraries
  */
 contract Proxy {
 
@@ -130,21 +150,27 @@ contract ProxyWithLowLevel {
     }
 
     fallback(bytes calldata input) external returns(bytes memory){
-        address localProxy = proxyAddress;
+        address localProxy = proxyAddress; // in assembly we can only call local variables
         assembly {
-  let ptr := mload(0x40)
+  let ptr := mload(0x40) // Get the pointer which points to address 0x40 (EVM provides this address and ensures this address is available)
    
   // (1) copy incoming call data
-  calldatacopy(ptr, 0, calldatasize())
+  // Calldatasize function simply gives the size of msg.data
+  // calldata copy takes 3 argument and (t, f, s): it will copy s bytes of calldata at position f into memory at position t. In addition, Solidity lets you access to the calldata through msg.data
+  calldatacopy(ptr, 0, calldatasize()) 
 
   // (2) forward call to logic contract
+  // Running delegate call
   let result := delegatecall(gas(), localProxy, ptr, calldatasize(), 0, 0)
+  // Return data size
   let size := returndatasize()
 
   // (3) retrieve return data
+  // Copy return data
   returndatacopy(ptr, 0, size)
 
   // (4) forward return data back to caller
+  // If there is result return else revert
   switch result
   case 0 { revert(ptr, size) }
   default { return(ptr, size) }
