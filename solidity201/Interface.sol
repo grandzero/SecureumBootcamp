@@ -122,3 +122,68 @@ contract C3_InterfaceCaller{
         callFromContract(base);
     }
 }
+
+
+//SPDX-License-Identifier: Unlicense
+pragma solidity ^0.8.0;
+
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/interfaces/IERC165.sol";
+contract InterfaceOwner is IERC165{
+    mapping(bytes4 => bool) public supportedInterfaces;
+    uint256 public test;
+
+    constructor(){
+        InterfaceOwner i;
+        supportedInterfaces[i.add.selector ^ i.zero.selector] = true;
+    }
+
+    function supportsInterface(bytes4 interfaceId) external view override returns (bool){
+        return supportedInterfaces[interfaceId];
+    }
+
+    function add(uint256 _a) external{
+        test=_a;
+    }
+
+    function zero() external{
+        test=10;
+    }
+}
+
+contract Caller {
+    function callIfHasMethod (address _addr) external {
+        InterfaceOwner test = InterfaceOwner(_addr);
+        bytes4 condition = bytes4(keccak256("add(uint256)")) ^ bytes4(keccak256("zero()"));
+        if(test.supportsInterface(condition)){
+            test.add(111);
+        }
+    }
+
+    function callIfHasMethod2 (address _addr) external {
+        InterfaceOwner test = InterfaceOwner(_addr);
+        bytes4 condition = bytes4(keccak256("add(uint256)")) ^ bytes4(keccak256("zero()"));
+        if(test.supportsInterface(condition)){
+            test.zero();
+        }
+    }
+
+    function callIfHasMethod3 (address _addr) external {
+        InterfaceOwner test = InterfaceOwner(_addr);
+        bytes4 condition = bytes4(keccak256("add(uint256)")) ^ bytes4(keccak256("zero()"));
+        if(!test.supportsInterface(condition)){
+            test.zero();
+        }
+    }
+}
+
+contract ABC {
+    function x() virtual view external returns(uint256){
+        return 3;
+    }
+}
+
+contract CDE is ABC{
+    uint256 public override x;
+}
+
+
